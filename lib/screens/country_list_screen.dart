@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 
 import '../model/country_model.dart';
 import 'country_detail_screen.dart';
@@ -18,6 +20,27 @@ class _CountryListScreenState extends State<CountryListScreen> {
   late StreamController _streamController;
   late Stream _stream;
   var allCounter = <CountryModel>[];
+  var searchList = <CountryModel>[];
+  bool isSearching = false;
+
+  searchByName(String value) {
+    if (value.isEmpty) {
+      setState(() {
+        isSearching = false;
+      });
+    } else {
+      searchList = allCounter
+          .where((element) =>
+              element.name.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+      if (kDebugMode) {
+        print('List $searchList');
+      }
+      setState(() {
+        isSearching = true;
+      });
+    }
+  }
 
   void getAllCountry() async {
     _streamController.add('loading');
@@ -34,14 +57,13 @@ class _CountryListScreenState extends State<CountryListScreen> {
     } else {
       return _streamController.add('went wrong');
     }
-
   }
+
   @override
   void initState() {
     _streamController = StreamController();
     _stream = _streamController.stream;
     getAllCountry();
-    // TODO: implement initState
     super.initState();
   }
 
@@ -50,46 +72,93 @@ class _CountryListScreenState extends State<CountryListScreen> {
     return Scaffold(
       backgroundColor: Colors.white60,
       appBar: AppBar(
-        title: const Text('All Countries'),
+        automaticallyImplyLeading: false,
+        title: Row(
+          children: [
+            const SizedBox(width: 08),
+            Expanded(
+              child: TextField(
+                cursorColor: Colors.white,
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                    hintText: 'Search Country...',
+                    hintStyle: const TextStyle(color: Colors.white70),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: const BorderSide(color: Colors.white),
+                    ),
+                    enabledBorder: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 18)),
+                onChanged: (value) {
+                  setState(() {
+                    searchByName(value);
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
+        toolbarHeight: 80,
       ),
       body: StreamBuilder(
         stream: _stream,
-        builder: (context, snapshort) {
-          if (snapshort.hasData) {
-            if (snapshort.data == 'loading') {
-              return  const CircularProgressIndicator();
-            } else if (snapshort.data == 'went wrong') {
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data == 'loading') {
+              return const CircularProgressIndicator();
+            } else if (snapshot.data == 'went wrong') {
               return const Text('something went wrong');
             } else {
-              return ListView.builder(
-                  itemCount: allCounter.length,
-                  itemBuilder: (context, index) {
-                    CountryModel myData = allCounter[index];
-                  return  SingleChildScrollView(
-                    child: Card(
-                      color: Colors.brown,
-                        child: ListTile(
-                          onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context)
-                          {
-                            return CountryDetailScreen(countryModel: myData);
-                          }));
-
-                          },
-                          leading:SizedBox(
-                            height: 50,
-                            width: 80,
-                            child: SvgPicture.network(myData.flag.toString(),
-                              fit: BoxFit.cover,),
+              return allCounter.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: isSearching == false
+                          ? allCounter.length
+                          : searchList.length,
+                      itemBuilder: (context, index) {
+                        var myData = isSearching == false
+                            ? allCounter[index]
+                            : searchList[index];
+                        return SingleChildScrollView(
+                          child: Card(
+                            color: Colors.brown,
+                            child: ListTile(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .push(MaterialPageRoute(builder: (context) {
+                                  return CountryDetailScreen(
+                                      countryModel: myData);
+                                }));
+                              },
+                              leading: SizedBox(
+                                height: 50,
+                                width: 80,
+                                child: SvgPicture.network(
+                                  myData.flag.toString(),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              title: Text(
+                                myData.name.toString(),
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ),
                           ),
-                          title: Text(myData.name.toString(),style: const TextStyle(color: Colors.white,fontSize:18,fontWeight: FontWeight.w400),),
-
-                        ) ,
+                        );
+                      })
+                  : const Center(
+                      child: SizedBox(
+                        width: 350,
+                        child: Text(
+                          'No Country.',
+                          style: TextStyle(fontSize: 18),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-
-                  );
-                  }
-              );
+                    );
             }
           } else {
             return const Center(child: CircularProgressIndicator());

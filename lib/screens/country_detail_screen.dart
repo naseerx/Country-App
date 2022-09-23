@@ -1,11 +1,7 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../model/country_model.dart';
-
-
 
 class CountryDetailScreen extends StatefulWidget {
   final CountryModel countryModel;
@@ -146,7 +142,6 @@ class _CountryDetailScreenState extends State<CountryDetailScreen> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-
                 ],
               ),
             ),
