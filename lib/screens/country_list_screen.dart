@@ -52,7 +52,6 @@ class _CountryListScreenState extends State<CountryListScreen> {
         CountryModel countryModel = CountryModel.fromJSON(myData);
         allCounter.add(countryModel);
         _streamController.add(allCounter);
-        //print(allCounter.length);
       }
     } else {
       return _streamController.add('went wrong');
@@ -70,9 +69,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white60,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: Row(
           children: [
             const SizedBox(width: 08),
@@ -119,31 +116,35 @@ class _CountryListScreenState extends State<CountryListScreen> {
                         var myData = isSearching == false
                             ? allCounter[index]
                             : searchList[index];
-                        return SingleChildScrollView(
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Card(
-                            color: Colors.brown,
-                            child: ListTile(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute(builder: (context) {
-                                  return CountryDetailScreen(
-                                      countryModel: myData);
-                                }));
-                              },
-                              leading: SizedBox(
-                                height: 50,
-                                width: 80,
-                                child: SvgPicture.network(
-                                  myData.flag.toString(),
-                                  fit: BoxFit.cover,
+                            color: Colors.deepPurple,
+                            child: SizedBox(
+                              height: 80,
+                              child: ListTile(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .push(MaterialPageRoute(builder: (context) {
+                                    return CountryDetailScreen(
+                                        countryModel: myData);
+                                  }));
+                                },
+                                leading: SizedBox(
+                                  height: 50,
+                                  width: 80,
+                                  child: SvgPicture.network(
+                                    myData.flag.toString(),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                              ),
-                              title: Text(
-                                myData.name.toString(),
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w400),
+                                title: Text(
+                                  myData.name.toString(),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400),
+                                ),
                               ),
                             ),
                           ),

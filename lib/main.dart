@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Country Project f',
       theme: ThemeData(
 
-        primarySwatch: Colors.brown,
+        primarySwatch: Colors.purple,
       ),
       home: const CountryListScreen(),
       debugShowCheckedModeBanner: false,
