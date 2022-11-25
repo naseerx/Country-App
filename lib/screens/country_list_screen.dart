@@ -118,33 +118,35 @@ class _CountryListScreenState extends State<CountryListScreen> {
                             : searchList[index];
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Card(
-                            color: Colors.deepPurple,
-                            child: SizedBox(
-                              height: 80,
-                              child: ListTile(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .push(MaterialPageRoute(builder: (context) {
-                                    return CountryDetailScreen(
-                                        countryModel: myData);
-                                  }));
-                                },
-                                leading: SizedBox(
+                          child: SizedBox(
+                            height: 80,
+                            child: ListTile(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .push(MaterialPageRoute(builder: (context) {
+                                  return CountryDetailScreen(
+                                      countryModel: myData);
+                                }));
+                              },
+                              leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+
+                                child: Container(
                                   height: 50,
                                   width: 80,
+                                  color: Colors.black,
                                   child: SvgPicture.network(
                                     myData.flag.toString(),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
-                                title: Text(
-                                  myData.name.toString(),
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w400),
-                                ),
+                              ),
+                              title: Text(
+                                myData.name.toString(),
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w400),
                               ),
                             ),
                           ),

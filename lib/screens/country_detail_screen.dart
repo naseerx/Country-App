@@ -18,9 +18,11 @@ class _CountryDetailScreenState extends State<CountryDetailScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.white38,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(widget.countryModel.name.toString()),
+        toolbarHeight: 80,
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -52,7 +54,7 @@ class _CountryDetailScreenState extends State<CountryDetailScreen> {
             Text(
               widget.countryModel.name.toString(),
               style: const TextStyle(
-                color: Colors.white,
+                color: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 25,
               ),
@@ -69,14 +71,14 @@ class _CountryDetailScreenState extends State<CountryDetailScreen> {
                     child: Text(
                       'Region : ${widget.countryModel.region}',
                       style: const TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
                   const Divider(
                     thickness: 2,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                   const SizedBox(
                     height: 20,
@@ -86,14 +88,14 @@ class _CountryDetailScreenState extends State<CountryDetailScreen> {
                     child: Text(
                       'Capital : ${widget.countryModel.capital}',
                       style: const TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
                   const Divider(
                     thickness: 2,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                   const SizedBox(
                     height: 20,
@@ -103,14 +105,14 @@ class _CountryDetailScreenState extends State<CountryDetailScreen> {
                     child: Text(
                       'Area : ${widget.countryModel.area}',
                       style: const TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
                   const Divider(
                     thickness: 2,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                   const SizedBox(
                     height: 20,
@@ -120,14 +122,14 @@ class _CountryDetailScreenState extends State<CountryDetailScreen> {
                     child: Text(
                       'Population : ${widget.countryModel.population}',
                       style: const TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
                   const Divider(
                     thickness: 2,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                   const SizedBox(
                     height: 20,
@@ -137,7 +139,7 @@ class _CountryDetailScreenState extends State<CountryDetailScreen> {
                     child: Text(
                       'Borders : ${widget.countryModel.borders}',
                       style: const TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
