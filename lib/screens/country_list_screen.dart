@@ -42,7 +42,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
     }
   }
 
-  void getAllCountry() async {
+ getAllCountry() async {
     _streamController.add('loading');
     var url = 'https://restcountries.com/v2/all';
     var response = await http.get(Uri.parse(url));
